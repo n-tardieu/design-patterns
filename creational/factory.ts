@@ -23,3 +23,4 @@ class ButtonFactory {
 
 const factory = new ButtonFactory()
 const btn1 = factory.createButton(os)
+const btn2 = factory.createButton(os)
