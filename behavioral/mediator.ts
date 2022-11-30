@@ -28,3 +28,9 @@ const c = new Airplane()
 
 import express from 'express';
 const app = express();
+
+function logger(req: express.Request, res: express.Response, next: express.NextFunction){
+    console.log('Resquest ', req.method);
+}
+
+app.use(logger) // <= logger middleware
