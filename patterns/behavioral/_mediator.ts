@@ -1,3 +1,4 @@
+// Exemple 1 :
 class Airplane {
     land() { }
 }
