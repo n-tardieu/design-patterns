@@ -1,9 +1,13 @@
 // Go idea but not resolve all solution
 class Human { }
 
+// not work for complexe code, you depend class
 class Dev extends Human { }
 
-// not work for complexe code, you depend class
+
+/**
+ * Prototype solution
+ */
 
 const dev = {
     name: 'no name',
@@ -12,11 +16,7 @@ const dev = {
     }
 }
 
-/**
- * Prototype solution
- */
-
-const human = Object.create(dev, {name : {value: 'Matthew'}});
+const human = Object.create(dev, { name: { value: 'Matthew' } });
 
 console.log(human.name);
 //  console.log(human.coding());
