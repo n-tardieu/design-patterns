@@ -13,8 +13,12 @@
 //     }
 // }
 
+interface State {
+    think(): string;
+}
+
 class Developer {
-    state: State;
+    private state: State;
 
     constructor() {
         this.state = new HappyState();
@@ -29,19 +33,22 @@ class Developer {
     }
 }
 
-interface State {
-    think(): string;
-}
-
 class HappyState implements State {
     think(): string {
-        return 'I am happy';
+        return 'I am happy !';
     }
 
 }
 
 class SadState implements State {
     think(): string {
-        return 'I am sad';
+        return 'I am sad !';
     }
 }
+
+let user1 = new Developer()
+console.log("Dev said : ", user1.think());
+console.log('..');
+
+user1.changeState(new SadState())
+console.log("Dev said after changeState : ", user1.think());
