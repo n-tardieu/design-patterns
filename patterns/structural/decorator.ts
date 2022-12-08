@@ -70,7 +70,11 @@ console.log(`Recipe: ${cakeCustom.cook}`);
 console.log(`Cost: ${cakeCustom.cost}`);
 
 
-// Exemple 2 without interface defines operations that can be altered by decorators.: 
+//
+/**
+ *  Exemple 2 without interface defines operations that can be altered by decorators.: 
+ */
+// 
 class CupCake {
     public flavour
     public color;
