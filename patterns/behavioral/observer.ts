@@ -1,56 +1,37 @@
-/**
- * The Subject interface declares a set of methods for managing subscribers.
- */
 interface Subject {
-    // Attach an observer to the subject.
-    attach(observer: Observer): void;
-
-    // Detach an observer from the subject.
-    detach(observer: Observer): void;
-
-    // Notify all observers about an event.
+    subscribe(observer: Observer): void;
+    unsubscribe(observer: Observer): void;
     notify(): void;
 }
-
-/**
- * The Subject owns some important state and notifies observers when the state
- * changes.
- */
 class ConcreteSubject implements Subject {
-    /**
-     * @type {number} For the sake of simplicity, the Subject's state, essential
-     * to all subscribers, is stored in this variable.
-     */
-    public state!: number;
 
-    /**
-     * @type {Observer[]} List of subscribers. In real life, the list of
-     * subscribers can be stored more comprehensively (categorized by event
-     * type, etc.).
-     */
+    public state!: number;
     private observers: Observer[] = [];
 
     /**
      * The subscription management methods.
      */
-    public attach(observer: Observer): void {
+    public subscribe(observer: Observer): void {
         const isExist = this.observers.includes(observer);
         if (isExist) {
-            return console.log('Subject: Observer has been attached already.');
+            return console.log(`Subject: Observer ${observer.name} has been subscribeed already.`);
         }
 
-        console.log('Subject: Attached an observer.');
+        console.log(`Subject : ${observer.name} -> subscribeed an observer.`);
         this.observers.push(observer);
     }
 
-    public detach(observer: Observer): void {
+    /**
+    * Stop an observer
+    */
+    public unsubscribe(observer: Observer): void {
         const observerIndex = this.observers.indexOf(observer);
         if (observerIndex === -1) {
             return console.log('Subject: Nonexistent observer.');
         }
 
         this.observers.splice(observerIndex, 1);
-        console.log('Subject: Detached an observer.');
+        console.log(`Subject: ${observer.name} -> unsubscribeed an observer.`);
     }
 
     /**
@@ -71,7 +52,8 @@ class ConcreteSubject implements Subject {
      */
     public someBusinessLogic(): void {
         console.log('\nSubject: I\'m doing something important.');
-        this.state = Math.floor(Math.random() * (10 + 1));
+       // this.state = Math.floor(Math.random() * 2 + 1);
+        this.state = 0
 
         console.log(`Subject: My state has just changed to: ${this.state}`);
         this.notify();
@@ -84,24 +66,35 @@ class ConcreteSubject implements Subject {
 interface Observer {
     // Receive update from subject.
     update(subject: Subject): void;
+
+    // for demo
+    name: string
 }
 
 /**
  * Concrete Observers react to the updates issued by the Subject they had been
- * attached to.
+ * subscribeed to.
  */
-class ConcreteObserverA implements Observer {
+class Toaster implements Observer {
+    name = "Toaster"
     public update(subject: Subject): void {
-        if (subject instanceof ConcreteSubject && subject.state < 3) {
-            console.log('ConcreteObserverA: Reacted to the event.');
+        if (subject instanceof ConcreteSubject && (subject.state == 0 || subject.state == 1)) {
+            console.log('Toaster: Reacted to the event.');
+        } else {
+            console.log('Toaster: No reacted to the event.');
         }
     }
 }
 
-class ConcreteObserverB implements Observer {
+class Logger implements Observer {
+    name = "Logger"
+
     public update(subject: Subject): void {
-        if (subject instanceof ConcreteSubject && (subject.state === 0 || subject.state >= 2)) {
-            console.log('ConcreteObserverB: Reacted to the event.');
+
+        if (subject instanceof ConcreteSubject && (subject.state == 0 || subject.state == 2)) {
+            console.log('Logger: Reacted to the event.');
+        } else {
+            console.log('Logger: No reacted to the event.');
         }
     }
 }
@@ -112,15 +105,15 @@ class ConcreteObserverB implements Observer {
 
 const subject = new ConcreteSubject();
 
-const observer1 = new ConcreteObserverA();
-subject.attach(observer1);
+const toaster = new Toaster();
+subject.subscribe(toaster);
 
-const observer2 = new ConcreteObserverB();
-subject.attach(observer2);
+const logger = new Logger();
+subject.subscribe(logger);
 
 subject.someBusinessLogic();
 subject.someBusinessLogic();
 
-subject.detach(observer2);
+subject.unsubscribe(toaster);
 
 subject.someBusinessLogic();
