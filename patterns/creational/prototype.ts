@@ -1,7 +1,7 @@
 // Go idea but not resolve all solution
-class Human { }
-
 // not work for complexe code, you depend class
+
+class Human { }
 class Dev extends Human { }
 
 

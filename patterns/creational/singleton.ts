@@ -31,8 +31,3 @@ function clientCode() {
 }
 
 clientCode();
-
-// this works too 
-const settings = {
-    dark: 'true'
-}
